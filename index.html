@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Shopping List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+
+<!--css-->
+<link rel="stylesheet" href="main.css"/>
+<link rel="stylesheet" href="header.css"/>
+<link rel="stylesheet" href="footer.css"/>
+<link rel="stylesheet" href="content.css"/>
+<link rel="stylesheet" href="readmode.css"/>
+<link rel="stylesheet" href="info.css"/>
+<link rel="stylesheet" href="fonts.css"/>
+<link rel="stylesheet" href="icon.css"/>
+
+<link rel="icon shortcut" href="list.png" type="image/x-icon">
+
+<!--embedded styles-->
+
+</head>
+<body>
+<!--header-->
+<header>
+	<div class="sl on"><i>Shopping List</i></div>
+	<div class="readh off"><i>Reading mode</i></div>
+</header>
+
+<!--content-->
+<div class="content">
+<div class="table"></div>
+
+<button class="material-icons addb">add_circle_outline</button><!--unwanted space around the material-icon-->
+</div>
+
+<!--reader-->
+<div class="readmode off"></div>
+
+<!--menu-->
+<div id="bg" class="bg"></div>
+<div class="bg">
+<button class="material-icons back off">arrow_back</button>
+
+<div class="opt">
+<button class="set clrb">Clear all</button>
+<button class="set creditb">Credits</button>
+</div>
+
+<div class="credit off">
+<div class="attribute">Favicon by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from <a href="http://www.flaticon.com/">flaticon.com</a></div>
+<div class="attribute">In-app icons by <i>Material icons</i> from <a href="https://material.io">material.io</a></div>
+<div class="attribute">App code written by <i>Vishesh &lt;visheshvog@gmail.com&gt;</i></div>
+<div class="attribute">Slip.js 1.2.0 (library) by <i>Kornel Lesiński &lt;kornel@geekhood.net&gt;</i> <a href="#" class="readlicense">read license</a></div>
+
+<!-- for Phonegap apk version
+<div class="attribute">Web to apk by <i>Adobe Phonegap</i></div>
+-->
+</div>
+
+<div class="license off">
+@license
+
+Slip.js 1.2.0
+
+© 2014 Kornel Lesiński <kornel@geekhood.net>. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</div>
+</div>
+
+<div class="infof" align="center"><button class="close">&#9652;</button></div>
+</div>
+
+<!--footbar-->
+<div id="foot">
+	<button type="i" class="material-icons readb">description</button>
+	<button class="infoB"></button>
+	
+	<div id="total">0</div>
+</div>
+
+<!--scripts-->
+<script src="slip.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,4 +1,3 @@
 # Shopping list
 
-Application preview:
-  - https://visheshcodes.github.io/shopping-list/
+Application preview: https://visheshcodes.github.io/shopping-list/

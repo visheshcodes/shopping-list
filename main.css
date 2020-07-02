@@ -63,11 +63,9 @@ header div i{
 
 .content{
 	background-color: #f2f2f2;
-	/*background-color: lightblue;*/
 	width: 100%;
 	height: calc(100% - 72px);
 	overflow-y: scroll;
-	padding: 2px 0 50px 0;
 }
 
 .content.off, .sl.off{
@@ -84,46 +82,38 @@ header div i{
 
 .records{
 	width: 100%;
-	height: 85px;
+	height: 100px;
 	border-bottom: 1px solid #ddd;
-	
 	display: flex;
-	display: -webkit-flex;
-	-webkit-justify-content: space-around;
-    justify-content: space-around;
-	margin: 3px 0;
-	padding: 10px 0;
-	line-height: 23px;
 	overflow: hidden;
-	
-	transition: height 0.1s, padding 0.1s;
+    justify-content: space-between;
+	line-height: 23px;
+	transition: height 0.1s;
 }
 
 .records.off{
 	height: 0;
-	padding: 0;
-	margin: 0;
 	border: 0;
 }
 
-.data{
-	min-width: 0;
-	display: inline-block;
-	height: inherit;
+.dataC{
+	width: 100%;
+	position: relative;
 	flex: 1;
-	margin: 0 10px 3px 10px;
+}
+
+.data{
+	width: 100%;
+	height: 60px;
+	padding: 0px 10px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .qnp{
 	display: flex;
 	justify-content: space-between;
-}
-
-.edit{
-	min-width: 63px;
-	height: inherit;
-	display: flex;
-	justify-content: space-around;
 }
 
 .input{
@@ -148,37 +138,34 @@ header div i{
 	padding: 0 5px;
 }
 
+.edit{
+	width: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 .del{
-	color: #444;
-	width: 22px;
-	height: 22px;
+	width: 20px;
+	height: 20px;
 	background-color: inherit;
 	padding: 0;
 	border: none;
 	transition: width 0.2s, margin 0.2s;
 	overflow: hidden;
-	font-size: 14px;
-	margin-right: 10px;
+	margin-bottom: 10px;
+	background-image: url("svg/cross.svg");
+	background-repeat: no-repeat;
+	background-position: 50%;
 	
 	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
-.cross{
-	position: absolute;
-	font-size: 12px;
-	top: 50%;
 	left: 50%;
-	transform:translate(-50%,-50%);
-	-ms-transform:translate(-50%,-50%);
-	transition: font-size 0.3s;
+	transform: translateX(-50%);
 }
 
 .instant{
 	width: 25px;
 	height: 25px;
-	margin-right: 6px;
 	text-align: center;
 	border-radius:4px;
 	background-color:#fbfbfb;
@@ -186,8 +173,8 @@ header div i{
 	transition: width 0.2s, border-width 0.2s;
 	
 	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .instant::after{
@@ -198,7 +185,7 @@ header div i{
 .price{
 	padding:0 10px;
 	flex: 1;
-	margin: 0 0 0 10px;
+	margin: 0 10px 0 0;
 }
 
 .price, .qty{
@@ -210,7 +197,7 @@ header div i{
 .qty{
 	text-align: center;
 	flex: 1;
-	margin: 0 10px 0 0;
+	margin: 0 0 0 10px;
 }
 
 .addb{
@@ -262,7 +249,7 @@ header div i{
 
 .rrecord{
 	display: flex;
-	padding: 5px;
+	padding: 12px 15px 15px 15px;
 	
 	border-bottom: 1px solid #ddd;
 	
@@ -273,26 +260,26 @@ header div i{
 	margin-bottom: 200px;
 }
 
+.rname, .rqnp, .rtC{
+	height: 35px;
+	line-height: 35px;
+}
+
 .rname{
-	height: 25px;
-	line-height: 25px;
-	/*word-wrap: break-word;
-	word-break: break-all;
-	border: 1px solid;*/
 	padding: 0 5px;
 }
 
-.rqnpnt{
-	height: 25px;
-	line-height: 25px;
-	display: flex;
+.rqnp, .rtC{
 	justify-content: space-between;
 	padding: 0 5px;
-	overflow-x: scroll;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
-.rqnpnt div{
+.rqnp div, .rtC div{
+	display: inline-block;
 	padding: 0 5px;
+	float: right;
 }
 
 #foot{
@@ -416,8 +403,7 @@ header div i{
 	top: 45%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	display: inline-block;
-	overflow-y: scroll;
+	overflow-y: auto;
 	
 	display: flex;
 	flex-direction: column;

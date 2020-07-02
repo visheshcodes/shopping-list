@@ -1,95 +1,123 @@
-function $(e){return document.querySelector(e);}
-function $All(e){return document.querySelectorAll(e);}
-function $aEL(e, eve, f){return e.addEventListener(eve, f);}
-function $cE(e){return document.createElement(e);}
+$ = (e) => document.querySelector(e);
+$All = (e) => document.querySelectorAll(e);
+$aEL = (e, eve, f) => e.addEventListener(eve, f);
+$cE = (e) => document.createElement(e);
 
-var dataList = [];
+var nS = 'http://www.w3.org/2000/svg';
+$cENS = (tN) => document.createElementNS(nS, tN);
 
-$('body').onload = function(){
-	show();
-	$aEL(window, 'resize', h);
-	$aEL($('.addb'), 'click', function(){
-		vadd(true);
-	});
-	$aEL($('.close'), 'click', info);
-	$aEL($('.readb'), 'click', read);
-	$aEL($('.infoB'), 'click', info);
-	
-	$aEL($('.table'), 'input', update);
-	$aEL($('.table'), 'click', del);
-}
+dataList = [],
+menuPages = [menu, credits, license],
+currMenuPage = 0;
 
-function show(){
-	l2t();
-	
-	h();
-	vsum();
-}
-
-function l2t(){
-	if(localStorage.dataList)
-		dataList = JSON.parse(localStorage.dataList);
-	else
-		dataList = [{name:"", qty:"1", price:""}];
-	
-	if(dataList.length == 0)
-		dataList = [{name:"", qty:"1", price:""}];
-	
-	count = 0;
-	for(var r of dataList){
-		vadd(false, r);
-		count++
+class Record{
+	constructor(name, qty, price){
+		this.name = name;
+		this.qty = qty;
+		this.price = price;
 	}
 }
 
-function update(){
-	var table = $All(".table");
+$('body').onload = () => {
+	show();
+
+	$aEL(window, 'resize', h);
+	$aEL($('.addb'), 'click', () => vadd(false));
+	$aEL($('.close'), 'click', info);
+	$aEL($('.readb'), 'click', read);
+	$aEL($('.infoB'), 'click', info);
+	$aEL($('.back'), 'click', back);
+	$aEL($('.table'), 'input', update);
+	$aEL($('.table'), 'click', del);
+	$aEL($('.creditb'),'click', credits);
+	$aEL($('.readlicense'),'click', license);
+	$aEL($('.clrb'),'click', allClear);
+}
+
+const show = () => {
+	storageToDom();
+	h();
+	vsum();
+}
+
+const update = () => {
 	var e = event.target;
+
+	floatValidate(e);
+
 	e.innerHTML = e.value;
 	
-	t2l();
+	DomToStorage();
 	vsum();
 	h();
 }
 
-function t2l(){
-	var list = $All(".records");
+const DomToStorage = () => {
+	var records = $All(".records");
+	var names = $All(".name");
+	var qtys = $All(".qty");
+	var prices = $All(".price");
+
 	dataList = [];
-	count = 0;
-	for(var i of list){
-		var currName = $All(".name")[count].innerHTML;
-		var currQty = $All(".qty")[count].innerHTML;
-		var currPrice = $All(".price")[count].innerHTML;
+
+	for(count=0;count < records.length; count++){
+		var currName = names[count].value;
+		var currQty = qtys[count].value;
+		var currPrice = prices[count].value;
 	
-		var recordD = {"name": currName, "qty": currQty, "price": currPrice};
+		var recordD = new Record(currName, currQty, currPrice);
 	
-		dataList[count] = recordD;
-		
-		count++;
+		dataList.push(recordD);
 	}
 	
 	localStorage.dataList = JSON.stringify(dataList);
 }
 
-function vsum(){
-	var sum=0, priceValue = 0, price, cal=0, i=0;
+const storageToDom = () => {
+	dataList = [];
+	var initRecord = new Record("", 1, "");
+	$(".table").innerHTML = "";
+
+	if(localStorage.dataList)
+		dataList = JSON.parse(localStorage.dataList);
+	else{
+		dataList = [initRecord];
+	}
+	
+	if(dataList.length == 0){
+		dataList = [initRecord];
+	}
+	
+	for(var data of dataList){
+		vadd(data);
+	}
+}
+
+const floatValidate = (e) => {
+	var floatRegX = new RegExp("[^\\d|.]","g");
+
+	if(e.classList.contains("qty") || e.classList.contains("price")){
+		e.value = e.value.replace(floatRegX, "");
+	}
+}
+
+const vsum = () => {
+	var sum = 0, priceValue = 0, price,  i=0;
 	
 	var qty = $All('.qty');
 	var price = $All('.price');
 	
 	for(var e of price){
-		var a = qty[i].value.replace(/[^\d|.]/g,"");
-		qty[i].value = a;
+		var a = qty[i].value;
 		
-		var b = e.value.replace(/[^\d|.]/g,"");
-		e.value = b;
+		var b = e.value;
 		
 		i++;
 		
 		a = Number(a);
 		b = Number(b);
 		
-		priceValue = a*b;
+		priceValue = Number((a * b).toFixed(2));
 		
 		if(priceValue){
 			sum += priceValue;
@@ -98,91 +126,92 @@ function vsum(){
 	$('#total').innerHTML = sum;
 }
 
-function vadd(user, r){
-	var records = document.createElement("DIV");
+const vadd = (data) => {
+	var records = $cE("div");
 	records.classList = "demo-no-swipe demo-no-reorder records";
+
+	var dataC = $cE("div");
+	dataC.classList = "dataC";
 	
-	var data = document.createElement("DIV");
-	data.classList = "data";
+	var dataE = $cE("div");
+	dataE.classList = "data";
 	
-	var name = document.createElement("TEXTAREA");
+	var name = $cE("textarea");
 	name.classList = "demo-no-swipe demo-no-reorder input name";
 	name.placeholder = "title";
+	if(data){
+		name.innerHTML = data.name
+	}
 	
-	var qnp = document.createElement("DIV");
+	var qnp = $cE("div");
 	qnp.classList = "qnp";
 	
-	var qty = document.createElement("TEXTAREA");
+	var qty = $cE("textarea");
 	qty.classList = "demo-no-swipe demo-no-reorder input qty";
 	qty.placeholder = "quantity";
 	qty.inputmode = "decimal";
-	qty.innerHTML = "1";
+	if(data) qty.innerHTML = data.qty;
+	else qty.innerHTML = "1";
 	
-	var price = document.createElement("TEXTAREA");
+	var price = $cE("textarea");
 	price.classList = "demo-no-swipe demo-no-reorder input price";
 	price.placeholder = "price";
 	price.inputmode = "decimal";
+	if(data) price.innerHTML = data.price;
 	
-	qnp.appendChild(qty);
 	qnp.appendChild(price);
+	qnp.appendChild(qty);
 	
-	data.appendChild(name);
-	data.appendChild(qnp);
+	dataE.appendChild(name);
+	dataE.appendChild(qnp);
+
+	dataC.appendChild(dataE);
 	
-	var edit = document.createElement("DIV");
+	var edit = $cE("DIV");
 	edit.classList = "edit";
 	
-	var instant = document.createElement("SPAN");
+	var instant = $cE("button");
 	instant.classList = "instant";
 	
-	var del = document.createElement("BUTTON");
-	del.classList = "demo-no-swipe demo-no-reorder del material-icons";
-	del.innerHTML = "clear";
+	var del = $cE("button");
+	del.classList = "demo-no-swipe demo-no-reorder del";
 	
-	edit.appendChild(instant);
 	edit.appendChild(del);
+
+	edit.appendChild(instant);
 	
-	records.appendChild(data);
+	records.appendChild(dataC);
 	records.appendChild(edit);
 	
-	if(user){
+	if(!data){
 		records.classList.add("off");
 	}
 	
 	$(".table").appendChild(records);
 	
-	if(r){
-		name.innerHTML = r.name;
-		qty.innerHTML = r.qty;
-		price.innerHTML = r.price;
-	}
-	
-	if(user){
-		setTimeout(function(){
+	DomToStorage();
+
+	if(!data){
+		setTimeout(() => {
 			records.classList.remove("off");
 		}, 100);
-		t2l();
-	}
-	
-	if(user){
-		
 	}
 }
 
-function del(){
-	const e = event.target;
-	
+const del = () => {
+	var e = event.target;
+
 	if(e.classList.contains("del")){
 		var record = e.parentElement.parentElement;
 		record.classList.add("off");
-		setTimeout(function(){
+		setTimeout(() => {
 			record.remove();
-			t2l();
+			DomToStorage();
 		}, 100);
 	}
 }
 
-function info(){
+const info = () => {
 	var bg = $All(".bg");
 	
 	for(var e of bg)
@@ -193,7 +222,7 @@ function info(){
 	menu();
 }
 
-function h(){
+const h = () => {
 	var names = $All(".name");
 	
 	var i=0;
@@ -211,28 +240,28 @@ function h(){
 	}
 }
 
-function setupSlip(list) {
-        list.addEventListener('slip:beforereorder', function(e){
+const setupSlip = (list) => {
+        list.addEventListener('slip:beforereorder', (e) => {
             if (e.target.classList.contains('demo-no-reorder')) {
                 e.preventDefault();
             }
         }, false);
 
-        list.addEventListener('slip:beforeswipe', function(e){
+        list.addEventListener('slip:beforeswipe', (e) => {
             if (e.target.nodeName == 'INPUT' || e.target.classList.contains('demo-no-swipe')) {
                 e.preventDefault();
             }
         }, false);
 
-        list.addEventListener('slip:beforewait', function(e){
+        list.addEventListener('slip:beforewait', (e) => {
             if (e.target.classList.contains('instant')) e.preventDefault();
         }, false);
 
-        list.addEventListener('slip:afterswipe', function(e){
+        list.addEventListener('slip:afterswipe', (e) => {
             e.target.parentNode.appendChild(e.target);
         }, false);
 
-        list.addEventListener('slip:reorder', function(e){
+        list.addEventListener('slip:reorder', (e) => {
             e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
             return false;
         }, false);
@@ -241,7 +270,7 @@ function setupSlip(list) {
     }
     setupSlip($('.table'));
 
-function read(){
+const read = () => {
 	$(".readmode").classList.toggle("off");
 	$(".readb").classList.toggle("on");
 	$(".addb").classList.toggle("off");
@@ -253,10 +282,10 @@ function read(){
 	if(c) readmode();
 }
 
-function readmode(){
+const readmode = () => {
 	const readmode = $(".readmode");
 	readmode.innerHTML = "";
-	
+
 	for(data of dataList){
 		var rrecord = $cE("div");
 		rrecord.classList = "rrecord";
@@ -268,63 +297,62 @@ function readmode(){
 		else
 			rname.innerHTML = "unnamed";
 		
-		var rqnpnt = $cE("div");
-		rqnpnt.classList = "rqnpnt";
+		var rqnp = $cE("div");
+		rqnp.classList = "rqnp";
+
+		var rqty = $cE("div");
+		rqty.classList = "rqty";
+		rqty.innerHTML = data.qty;
+		rqnp.appendChild(rqty);
 		
+		var star = $cE("div");
+		star.classList = "star";
+		star.innerHTML = "*";
+		rqnp.appendChild(star);
+
 		var rprice = $cE("div");
 		rprice.classList = "rprice";
 		if(data.price)
 			rprice.innerHTML = data.price;
 		else
 			rprice.innerHTML = "0";
-		rqnpnt.appendChild(rprice);
-		
-		var star = $cE("div");
-		star.classList = "star";
-		star.innerHTML = "*";
-		rqnpnt.appendChild(star);
-		
-		var rqty = $cE("div");
-		rqty.classList = "rqty";
-		rqty.innerHTML = data.qty;
-		rqnpnt.appendChild(rqty);
-		
-		var equal = $cE("div");
-		equal.classList = "equal";
-		equal.innerHTML = "=";
-		rqnpnt.appendChild(equal);
+		rqnp.appendChild(rprice);
+
+		var rtC = $cE("div");
+		rtC.classList = "rtC";
 		
 		var rt = $cE("div");
 		rt.classList = "rt";
-		rt.innerHTML = data.price*data.qty;
-		rqnpnt.appendChild(rt);
+		rt.innerHTML = Number((data.price*data.qty).toFixed(2));
+		rtC.appendChild(rt);
+
+		var equal = $cE("div");
+		equal.classList = "equal";
+		equal.innerHTML = "=";
+		rtC.appendChild(equal);
 		
-		if(rqnpnt.innerText.length > 40){
-			rqnpnt.style.flexDirection = "column";
-			rqnpnt.style.textAlign = "right";
+		if(rqnp.innerText.length > 40){
+			rqnp.style.flexDirection = "column";
+			rqnp.style.textAlign = "right";
 		}
 		
 		rrecord.appendChild(rname);
-		rrecord.appendChild(rqnpnt);
+		rrecord.appendChild(rqnp);
+		rrecord.appendChild(rtC);
 		
 		readmode.appendChild(rrecord);
 	}
 }
 
-$aEL($('.clrb'),'click', function(){
+const allClear = () => {
 	var c = confirm("All data will be cleared!");
 	if(c){
 		localStorage.clear();
 		window.location.href = "index.html";
 	}
-});
+}
 
-var menuPages = [menu, credits, license];
-var currMenuPage = 0;
-
-$('.back').addEventListener('click', back);
-
-function back(){
+const back = () => {
 	menuPages[currMenuPage-1]();
 }
 
@@ -335,8 +363,6 @@ function menu(){
 	$(".license").classList.add("off");
 }
 
-$aEL($('.creditb'),'click', credits);
-
 function credits(){
 	$(".back").classList.remove("off");
 	$(".opt").classList.add("off");
@@ -345,8 +371,6 @@ function credits(){
 	
 	currMenuPage = 1;
 }
-
-$aEL($('.readlicense'),'click', license);
 
 function license(){
 	$(".credit").classList.add("off");

@@ -6,9 +6,7 @@ $cE = (e) => document.createElement(e);
 var nS = 'http://www.w3.org/2000/svg';
 $cENS = (tN) => document.createElementNS(nS, tN);
 
-dataList = [],
-menuPages = [menu, credits, license],
-currMenuPage = 0;
+dataList = [];
 
 class Record{
 	constructor(name, qty, price){
@@ -23,14 +21,10 @@ $('body').onload = () => {
 
 	$aEL(window, 'resize', h);
 	$aEL($('.addb'), 'click', () => vadd(false));
-	$aEL($('.close'), 'click', info);
 	$aEL($('.readb'), 'click', read);
-	$aEL($('.infoB'), 'click', info);
-	$aEL($('.back'), 'click', back);
 	$aEL($('.table'), 'input', update);
 	$aEL($('.table'), 'click', del);
 	$aEL($('.creditb'),'click', credits);
-	$aEL($('.readlicense'),'click', license);
 	$aEL($('.clrb'),'click', allClear);
 }
 
@@ -211,17 +205,6 @@ const del = () => {
 	}
 }
 
-const info = () => {
-	var bg = $All(".bg");
-	
-	for(var e of bg)
-		e.classList.toggle("on");
-	
-	$(".infoB").classList.toggle("active");
-	
-	menu();
-}
-
 const h = () => {
 	var names = $All(".name");
 	
@@ -352,29 +335,10 @@ const allClear = () => {
 	}
 }
 
-const back = () => {
-	menuPages[currMenuPage-1]();
-}
-
-function menu(){
-	$(".back").classList.add("off");
-	$(".opt").classList.remove("off");
-	$(".credit").classList.add("off");
-	$(".license").classList.add("off");
-}
-
 function credits(){
-	$(".back").classList.remove("off");
-	$(".opt").classList.add("off");
-	$(".credit").classList.remove("off");
-	$(".license").classList.add("off");
-	
-	currMenuPage = 1;
-}
+	var bg = $All(".bg");
 
-function license(){
-	$(".credit").classList.add("off");
-	$(".license").classList.remove("off");
-	
-	currMenuPage = 2;
+	for(var e of bg){
+		e.classList.toggle("on");
+	}
 }

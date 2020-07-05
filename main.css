@@ -8,17 +8,18 @@ html, body{
 	height: 100vh;
 	background-color:#f2f2f2;
 	margin: 0;
-	padding: 0;
+}
+
+button{
+	cursor: pointer;
 }
 
 .off{
-	display: 
-	none;
+	display: none;
 }
 
 header{
 	color: #404040;
-	width: 100%;
 	height: 30px;
 	box-shadow: 0 0 3px 0px #bdbdbd;
 	background-color:#fffcb5;
@@ -61,19 +62,14 @@ header div i{
 	-ms-transform:translate(-50%,-50%);
 }
 
-.content{
-	background-color: #f2f2f2;
-	width: 100%;
+.content, .readmode{
 	height: calc(100% - 72px);
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .content.off, .sl.off{
 	display: none;
-}
-
-.table{
-	width: 100%;
 }
 
 .records:last-child{
@@ -81,7 +77,6 @@ header div i{
 }
 
 .records{
-	width: 100%;
 	height: 100px;
 	border-bottom: 1px solid #ddd;
 	display: flex;
@@ -97,7 +92,6 @@ header div i{
 }
 
 .dataC{
-	width: 100%;
 	position: relative;
 	flex: 1;
 }
@@ -122,20 +116,18 @@ header div i{
 	color: #303030;
 	font-family:'Bree Serif', serif;
 	font-size: 15px;
-	border: none;
+	border-style: none;
 	border-bottom:1px solid #c0c0c0;
-	border-radius:1px;
 	transition: width 0.3s;
 	background-color: inherit;
 	resize: none;
-	padding: 0;
-	margin-bottom: 4px;
 	line-height: inherit;
 }
 
 .name{
 	width: 100%;
 	padding: 0 5px;
+	margin-bottom: 4px;
 }
 
 .edit{
@@ -175,6 +167,12 @@ header div i{
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
+
+	cursor: grab;
+}
+
+.instant:active{
+	cursor: grabbing;
 }
 
 .instant::after{
@@ -186,12 +184,13 @@ header div i{
 	padding:0 10px;
 	flex: 1;
 	margin: 0 10px 0 0;
+	text-align:right;
 }
 
 .price, .qty{
-	text-align:right;
 	white-space: nowrap;
-	overflow: hidden;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .qty{
@@ -201,22 +200,15 @@ header div i{
 }
 
 .addb{
-	display: block;
+	background-image: url("svg/add.svg");
+	background-repeat: no-repeat;
+	background-size: contain;
 	width: 40px;
 	height: 40px;
-	font-size: 40px;
-	line-height: 40px;
-	word-spacing: 0;
-	letter-spacing: 0;
-	color: #f00;
 	border: none;
-	border-radius: 50%;
 	position: absolute;
 	right: 20px;
 	bottom: 60px;
-	margin: 0;
-	padding: 0;
-	opacity: 0.5;
 }
 
 .addb.off{
@@ -224,18 +216,7 @@ header div i{
 }
 
 .addb .hbar, .addb .vbar{
-	background-color: #e0e0e0;
-}
-
-@media only screen and (max-width: 360px){
-	.price, .qty{
-		overflow-x: scroll;
-	}
-}
-
-.readmode{
-	height: calc(100% - 72px);
-	overflow-y: scroll;
+	background-color: #e0e0e0
 }
 
 .reader, .readmode{
@@ -277,7 +258,6 @@ header div i{
 }
 
 .rqnp div, .rtC div{
-	display: inline-block;
 	padding: 0 5px;
 	float: right;
 }
@@ -304,17 +284,10 @@ header div i{
 	float: left;
 }
 
-.readb{
-	margin-right: 10px;
-}
-.readb.on{
-	color: #ffa852;
-}
-
 .editb, .readb{
 	font-size: 24px;
 	color: #484848;
-	border:none;
+	border-style:none;
 	position: relative;
 	padding: 0;
 }
@@ -348,13 +321,8 @@ header div i{
 	border-bottom: 1px solid #bbb;
 	float:right;
 	margin-left: 5px;
-	overflow: hidden;
-}
-
-@media only screen and (max-width: 360px){
-	#total{
-		overflow-x: scroll;
-	}
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 #bg{
@@ -371,7 +339,8 @@ header div i{
 	transform: translate(-50%, 0);
 	padding:0;
 	transition: top 0.3s;
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
 	letter-spacing: 0.6px;
 	display: block;
 }
@@ -383,9 +352,8 @@ header div i{
 .back{
 	font-size: 25px;
 	background-color: inherit;
-	border: none;
+	border-style: none;
 	padding: 10px;
-	
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -433,56 +401,6 @@ header div i{
 	border-color: #23a263;
 }
 
-.infof{
-	height: 30px;
-	width: calc(100% - 20px);
-	position: absolute;
-	bottom: 5px;
-}
-
-.close{
-	background-color: inherit;
-	border: none;
-	font-size: 20px;
-}
-
-.guide{
-	width: 100%;
-	max-width: 250px;
-	position: absolute;
-	top: 30%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-/*.guide *{border:1px solid black;}*/
-
-.guide td{
-	font-family:'Bree Serif', serif;
-	display: flex;
-	display: -webkit-flex;
-	-webkit-justify-content: space-around;
-	justify-content: space-around;
-	align-items: center;
-	align-content: space-between;
-}
-
-.pimg{
-	background-color: white;
-	border-radius:5px;
-	border:1px solid #333;
-}
-
-.pimg, .t{
-	height: 25px;
-	text-align: center;
-	color: #404040;
-	font-family:'Bree Serif', serif;
-	font-size: 15px;
-	overflow: scroll;
-	flex: 1;
-}
-
 .credit{
 	width: 90%;
 	position: relative;
@@ -500,29 +418,53 @@ header div i{
 	font-family: Arial, Helvetica, sans-serif;
 	width: 90%;
 	min-height: 20px;
-	line-height: 20px;
+	line-height: 30px;
 	text-align: center;
 	position: relative;
 	left: 50%;
 	transform: translate(-50%, 0);
 	background-color: #b0d7ff;
 	border-radius: 50%;
-	margin-bottom: 30px;
-	
+	margin-bottom: 20px;
 	box-shadow: 0 0 20px 10px #b0d7ff;
 }
 
-.license{
-	white-space: pre-line;
-	padding: 30px;
+a{
+	color: #006f73;
 }
 
-@media screen and (orientation: landscape){
+.readb, .clrb, .creditB{
+	width: 20px;
+	height: 20px;
+	border-style: none;
+	margin-right: 10px;
+	background-repeat: no-repeat;
+}
+
+.readb{
+	background-image: url("svg/read.svg");
+}
+
+.clrb{
+	background-image: url("svg/clearAll.svg");
+}
+
+.creditB{
+	background-image: url("svg/info.svg");
+}
+
+@media only screen and (orientation: landscape){
 	.opt{
 		min-height: 150px;
 		height: 80%;
 		width: 50%;
 		margin: 0;
 		top: 50%;
+	}
+}
+
+@media only screen and (max-width: 360px){
+	.price, .qty{
+		overflow-x: scroll;
 	}
 }
